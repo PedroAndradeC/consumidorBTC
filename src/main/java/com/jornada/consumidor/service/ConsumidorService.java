@@ -6,6 +6,7 @@ import com.jornada.consumidor.dto.CommunityDTO;
 import com.jornada.consumidor.dto.PostDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -15,10 +16,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ConsumidorService {
 
-    @KafkaListener(topics = "${kafka.topic}",
+    @KafkaListener(
         groupId = "${kafka.group.id}",
+        topicPartitions = {@TopicPartition(topic = "${kafka.topic}", partitions = {"0", "1", "2"})},
         containerFactory = "listenerContainerFactory",
-        clientIdPrefix = "primeiroTopico")
+        clientIdPrefix = "consumidorTopico")
     public void consumir(
             @Payload String mensagem,
             @Header(KafkaHeaders.RECEIVED_KEY) String chave,
@@ -26,6 +28,6 @@ public class ConsumidorService {
     ) throws JsonProcessingException {
         // String para Objeto
         CommunityDTO dto = new ObjectMapper().readValue(mensagem, CommunityDTO.class);
-        log.info("Mensagem recebida: {} \n chave: {} \n offset: {}", dto, chave, offset);
+        log.info("Descrição da comunidade: {} \n chave: {} \n offset: {}", dto, chave, offset);
     }
 }
