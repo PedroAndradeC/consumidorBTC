@@ -3,7 +3,6 @@ package com.jornada.consumidor.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jornada.consumidor.dto.CommunityDTO;
-import com.jornada.consumidor.dto.PostDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
