@@ -10,9 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -26,16 +23,16 @@ public class CommunityLogService {
 //            String communityLogJson = objectMapper.writeValueAsString(communityLogDTO);
 //            CommunityLogEntity communityLogEntity = communityLogMapper.toEntity(communityLogDTO);
             CommunityLogEntity communityLogEntity = new CommunityLogEntity();
-            String communityDto = objectMapper.writeValueAsString(communityLogDTO.getCommunityDTO());
+            String communityDto = new ObjectMapper().writeValueAsString(communityLogDTO.getCommunityDTO());
 
 //            CommunityLogEntity communityLogEntity = new CommunityLogEntity();
 //            communityLogEntity.setNameCommunity(communityLogDTO.getNameCommunity());
 //            communityLogEntity.setCommunityTopic(communityLogDTO.getCommunityTopic());
 //            communityLogEntity.setDescriptionCommunity(communityLogDTO.getDescriptionCommunity());
 
-            communityLogDTO.setDescriptionCommunity(communityLogDTO.getDescriptionCommunity());
+            communityLogDTO.setOperacaoCommunity(communityLogDTO.getOperacaoCommunity());
             communityLogDTO.setHorario(communityLogDTO.getHorario());
-            communityLogDTO.setCommunityDTO(communityLogDTO.getCommunityDTO());
+            communityLogDTO.setCommunityDTO(communityDto);
 
             communityLogEntity = communityLogMapper.toEntity(communityLogDTO);
             communityRepository.save(communityLogEntity);

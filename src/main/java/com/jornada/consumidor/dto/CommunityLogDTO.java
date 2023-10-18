@@ -7,7 +7,7 @@ import java.util.Date;
 @Data
 public class CommunityLogDTO {
 
-    private DescriptionCommunity descriptionCommunity;
+    private OperacaoCommunity operacaoCommunity;
     private CommunityDTO communityDTO;
     private Date horario;
 }

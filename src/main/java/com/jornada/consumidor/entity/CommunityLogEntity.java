@@ -1,11 +1,9 @@
 package com.jornada.consumidor.entity;
 
 
-import com.jornada.consumidor.dto.CommunityDTO;
-import com.jornada.consumidor.dto.DescriptionCommunity;
+import com.jornada.consumidor.dto.OperacaoCommunity;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -15,7 +13,7 @@ import java.util.Date;
 @Setter
 public class CommunityLogEntity {
 
-    private DescriptionCommunity descriptionCommunity;
+    private OperacaoCommunity operacaoCommunity;
 
     private String community;
 
