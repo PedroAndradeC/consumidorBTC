@@ -3,9 +3,7 @@ package com.jornada.consumidor.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jornada.consumidor.dto.CommunityDTO;
 import com.jornada.consumidor.dto.CommunityLogDTO;
-import com.jornada.consumidor.dto.CommunityLogDTOAuxiliar;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -35,9 +33,9 @@ public class ConsumidorService {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // Ignorar campos desconhecidos
 
-        CommunityLogDTOAuxiliar dto;
+        CommunityLogDTO dto;
         try {
-            dto = objectMapper.readValue(mensagem, CommunityLogDTOAuxiliar.class);
+            dto = objectMapper.readValue(mensagem, CommunityLogDTO.class);
             log.info("Descrição da comunidade: {} \n chave: {} \n offset: {}", dto, chave, offset);
             communityLogService.salvarMongoDB(dto);
         } catch (JsonProcessingException e) {

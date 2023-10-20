@@ -15,7 +15,7 @@ public class CommunityLogEntity {
 
     private OperacaoCommunity operacaoCommunity;
 
-    private String community;
+    private String communityDTO;
 
     private Date horario;
 }
