@@ -1,6 +1,7 @@
 package com.jornada.consumidor.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jornada.consumidor.dto.CommunityDTO;
 import com.jornada.consumidor.dto.CommunityLogDTO;
@@ -31,10 +32,16 @@ public class ConsumidorService {
             @Header(KafkaHeaders.RECEIVED_KEY) String chave,
             @Header(KafkaHeaders.OFFSET) Long offset
     ) throws JsonProcessingException {
-        // String para Objeto
-        CommunityLogDTOAuxiliar dto = new ObjectMapper().readValue(mensagem, CommunityLogDTOAuxiliar.class);
-        log.info("Descrição da comunidade: {} \n chave: {} \n offset: {}", dto, chave, offset);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // Ignorar campos desconhecidos
 
-        communityLogService.salvarMongoDB(dto);
+        CommunityLogDTOAuxiliar dto;
+        try {
+            dto = objectMapper.readValue(mensagem, CommunityLogDTOAuxiliar.class);
+            log.info("Descrição da comunidade: {} \n chave: {} \n offset: {}", dto, chave, offset);
+            communityLogService.salvarMongoDB(dto);
+        } catch (JsonProcessingException e) {
+            log.error("Erro ao processar a mensagem JSON: " + e.getMessage());
+        }
     }
 }

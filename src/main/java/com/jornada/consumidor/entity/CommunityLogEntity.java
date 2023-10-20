@@ -18,6 +18,4 @@ public class CommunityLogEntity {
     private String community;
 
     private Date horario;
-
-    private String _class;
 }
