@@ -3,6 +3,7 @@ package com.jornada.consumidor.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jornada.consumidor.dto.CommunityLogDTO;
+import com.jornada.consumidor.dto.CommunityLogDTOAuxiliar;
 import com.jornada.consumidor.entity.CommunityLogEntity;
 import com.jornada.consumidor.mapper.CommunityLogMapper;
 import com.jornada.consumidor.repository.CommunityRepository;
@@ -18,23 +19,18 @@ public class CommunityLogService {
     private final CommunityRepository communityRepository;
     private final ObjectMapper objectMapper;
 
-    public void salvarMongoDB(CommunityLogDTO communityLogDTO) throws JsonProcessingException {
+    public void salvarMongoDB(CommunityLogDTOAuxiliar communityDTO) throws JsonProcessingException {
         try {
-//            String communityLogJson = objectMapper.writeValueAsString(communityLogDTO);
-//            CommunityLogEntity communityLogEntity = communityLogMapper.toEntity(communityLogDTO);
-            CommunityLogEntity communityLogEntity = new CommunityLogEntity();
-            String communityDto = new ObjectMapper().writeValueAsString(communityLogDTO.getCommunityDTO());
+            CommunityLogDTO communityLogDTO = new CommunityLogDTO();
 
-//            CommunityLogEntity communityLogEntity = new CommunityLogEntity();
-//            communityLogEntity.setNameCommunity(communityLogDTO.getNameCommunity());
-//            communityLogEntity.setCommunityTopic(communityLogDTO.getCommunityTopic());
-//            communityLogEntity.setDescriptionCommunity(communityLogDTO.getDescriptionCommunity());
+            String communityLogJson = new ObjectMapper().writeValueAsString(communityDTO.getCommunityDTO());
 
-            communityLogDTO.setOperacaoCommunity(communityLogDTO.getOperacaoCommunity());
-            communityLogDTO.setHorario(communityLogDTO.getHorario());
-            communityLogDTO.setCommunityDTO(communityDto);
 
-            communityLogEntity = communityLogMapper.toEntity(communityLogDTO);
+            communityLogDTO.setOperacaoCommunity(communityDTO.getOperacaoCommunity());
+            communityLogDTO.setHorario(communityDTO.getHorario());
+            communityLogDTO.setCommunityDTO(communityLogJson);
+
+            CommunityLogEntity communityLogEntity = communityLogMapper.toEntity(communityLogDTO);
             communityRepository.save(communityLogEntity);
             log.info("Log da comunidade salvo no MongoDB com sucesso");
 //        } catch (JsonProcessingException e) {
